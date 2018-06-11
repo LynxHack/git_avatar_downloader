@@ -1,8 +1,9 @@
 var Args = process.argv;
 var request = require('request');
 var secret = require('./secrets');
-console.log('Welcome to the GitHub Avatar Downloader!');
+require('dotenv').config();
 
+console.log('Welcome to the GitHub Avatar Downloader!');
 
 if(Args.length !== Number(4)){
   throw new Error('Need to input both repo owner and repo name as arguments!');
@@ -15,15 +16,12 @@ function getRepoContributors(repoOwner, repoName, cb) {
     headers: {
       'User-Agent': 'request'
     },
-    'auth':{ 'bearer': secret.GITHUB_TOKEN}
+    'auth':{ 'bearer': process.env.TOKEN} //secret.GITHUB_TOKEN}
 
   };
 
   request(options, cb); 
 }
-
-
-
 
 var obj = "";
 getRepoContributors(Args[2],Args[3],function(err, res, body){
