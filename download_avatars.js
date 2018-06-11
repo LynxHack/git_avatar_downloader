@@ -12,17 +12,34 @@ function getRepoContributors(repoOwner, repoName, cb) {
       'Authorization': secret.GITHUB_TOKEN
     }
   };
+/*
+  //var url = "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors";
+  //request(url, cb); /*function(err, res, body) {
+    cb(err, body); 
+    
 
-  var url = "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors";
-  request(url, function(err, res, body) {
-    cb(err, body);
-  }); 
+  }); */
+  
+  request(options, cb);
+
+  //request(options, function(err, result) {
+  //console.log("Errors:", err);
+  //console.log("Result:", result);
+
+  
+}
 
 
-
-request(options, function(err, result) {
-  console.log("Errors:", err);
-  console.log("Result:", result);
+var obj;
+getRepoContributors("jquery","jquery",function(err, res, body){
+	console.log(JSON.parse(body));
+	obj = JSON.parse(body);
 });
 
+
+console.log(obj);
+///Secure avatar urls
+for(element in obj){
+	console.log(element);
+	console.log(element[avatar_url]);
 }
