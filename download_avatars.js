@@ -1,6 +1,12 @@
+var Args = process.argv;
 var request = require('request');
 var secret = require('./secrets');
 console.log('Welcome to the GitHub Avatar Downloader!');
+
+
+if(Args.length !== Number(4)){
+	throw new Error('Need to input both repo owner and repo name as arguments!');
+}
 
 
 function getRepoContributors(repoOwner, repoName, cb) {
@@ -27,17 +33,23 @@ function getRepoContributors(repoOwner, repoName, cb) {
   //console.log("Result:", result);
 }
 
+
+
+
 var obj = "";
-getRepoContributors("jquery","jquery",function(err, res, body){
+getRepoContributors(Args[2],Args[3],function(err, res, body){
 	//obj += body ;
 	var data = JSON.parse(body);
 	console.log(data);
 	console.log(data.length);
 
 	for(var i = 0; i < data.length; i++){
+		downloadImageByURL(data[i]["avatar_url"], "avatarsfromgit/" + data[i]["login"]);
 		console.log(data[i]["avatar_url"]);
 	}
 });
+
+
 
 //Obtain kirvani image
 
@@ -51,3 +63,6 @@ function downloadImageByURL(url, filePath) {
 }
 
 downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg");
+
+
+
