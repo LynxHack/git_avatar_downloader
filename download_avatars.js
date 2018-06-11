@@ -4,13 +4,14 @@ console.log('Welcome to the GitHub Avatar Downloader!');
 
 
 function getRepoContributors(repoOwner, repoName, cb) {
-   
+     
   var options = {
     url: "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors",
     headers: {
-      'User-Agent': 'request',
-      'Authorization': secret.GITHUB_TOKEN
-    }
+      'User-Agent': 'request'
+         },
+	'auth':{ 'bearer': secret.GITHUB_TOKEN}
+
   };
 /*
   //var url = "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors";
@@ -20,26 +21,22 @@ function getRepoContributors(repoOwner, repoName, cb) {
 
   }); */
   
-  request(options, cb);
-
+  request(options, cb); 
   //request(options, function(err, result) {
   //console.log("Errors:", err);
   //console.log("Result:", result);
-
-  
 }
 
-
-var obj;
+var obj = "";
 getRepoContributors("jquery","jquery",function(err, res, body){
-	console.log(JSON.parse(body));
-	obj = JSON.parse(body);
+	//obj += body ;
+	var data = JSON.parse(body);
+	console.log(data);
+	console.log(data.length);
+
+	for(var i = 0; i < data.length; i++){
+		console.log(data[i]["avatar_url"]);
+	}
 });
 
 
-console.log(obj);
-///Secure avatar urls
-for(element in obj){
-	console.log(element);
-	console.log(element[avatar_url]);
-}
