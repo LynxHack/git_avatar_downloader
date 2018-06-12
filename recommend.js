@@ -49,6 +49,9 @@ getRepoContributors(Args[2],Args[3],function(err, res, body){
     if (data[i]["avatar_url"]["message"] == 'Not Found')
 	throw new Error('Could not locate the repository!');
     downloadImageByURL(data[i]["avatar_url"], docpath + data[i]["login"]);
+    getHighestStarredRepo(data[i]["login"]);
+    console.log(data[i]["login"]);
+    getHighestStarredRepo(data[i]["login"]);
     console.log(data[i]["avatar_url"]);
   }
 });
@@ -67,6 +70,30 @@ function downloadImageByURL(url, filePath) {
 }
 
 downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg");
+
+
+//Get highest starred repos
+var response = [];
+function getHighestStarredRepo(login) {
+   var options = {
+    url: "https://api.github.com/" + login + "/starred_url",
+    headers: {
+      'User-Agent': 'request' 
+     },
+    'auth':{ 'bearer': process.env.TOKEN} //secret.GITHUB_TOKEN}
+
+  };
+
+  request(options, function(err, res, body){
+    var data = JSON.parse(body);
+    console.log(data);
+    console.log(data.length);
+
+    for(var i = 0; i < data.length; i++){
+      console.log(data[i]);
+    }
+  }); 
+}
 
 
 
